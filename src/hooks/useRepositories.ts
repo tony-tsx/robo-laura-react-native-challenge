@@ -1,7 +1,10 @@
 import useSWR from 'swr';
 import {fetcher} from '../helpers/fetcher';
-import {IRepo} from '../interfaces/IRepo';
+import {IRepository} from '../interfaces/IRepository';
 
 export const useRepositories = (nickname: string | null) => {
-  return useSWR<IRepo[]>(nickname ? `/users/${nickname}/repos` : null, fetcher);
+  return useSWR<IRepository[]>(
+    nickname ? `/users/${nickname}/repos` : null,
+    fetcher,
+  );
 };
