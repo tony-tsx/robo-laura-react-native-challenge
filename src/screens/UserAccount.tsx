@@ -15,7 +15,9 @@ import {CustomActivityIndicator} from '../components/CustomActivityIndicator';
 import {GithubErrorDialog} from '../components/GithubErrorDialog';
 
 export const UserAccount = () => {
-  const {data, isValidating, error} = useUserAccountDetails(useUserNickname());
+  const {data, isValidating, error, revalidate} = useUserAccountDetails(
+    useUserNickname(),
+  );
   const handlerPressOpenBlog = useCallback(() => {
     if (data?.blog) {
       Linking.openURL(data.blog);
@@ -27,7 +29,11 @@ export const UserAccount = () => {
       {isValidating ? (
         <CustomActivityIndicator />
       ) : error ? (
-        <GithubErrorDialog disableContainerStyle error={error} />
+        <GithubErrorDialog
+          disableContainerStyle
+          error={error}
+          onRetryPress={revalidate}
+        />
       ) : (
         <>
           <View style={styles.avatarContainer}>
