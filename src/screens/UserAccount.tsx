@@ -12,33 +12,37 @@ import {useUserAccountDetails} from '../hooks/useUserAccountDetails';
 import Octicons from 'react-native-vector-icons/Octicons';
 import {useCallback} from 'react';
 import {CustomActivityIndicator} from '../components/CustomActivityIndicator';
+import {GithubErrorDialog} from '../components/GithubErrorDialog';
 
 export const UserAccount = () => {
-  const {data, isValidating} = useUserAccountDetails(useUserNickname());
+  const {data, isValidating, error} = useUserAccountDetails(useUserNickname());
   const handlerPressOpenBlog = useCallback(() => {
     if (data?.blog) {
       Linking.openURL(data.blog);
     }
   }, [data]);
 
-  if (isValidating) {
-    return <CustomActivityIndicator />;
-  }
-
   return (
     <View style={styles.container}>
-      <View style={styles.avatarContainer}>
-        <Image style={styles.avatar} source={{uri: data.avatar_url}} />
-      </View>
-      <TouchableOpacity
-        style={styles.nameContainer}
-        disabled={!data.bio}
-        onPress={handlerPressOpenBlog}>
-        <Text style={styles.name}>{data.name}</Text>
-        {data.bio && <Octicons name="link" style={styles.blogIcon} />}
-      </TouchableOpacity>
-      {data.bio && <Text style={styles.bio}>{data.bio}</Text>}
-      <View />
+      {isValidating ? (
+        <CustomActivityIndicator />
+      ) : error ? (
+        <GithubErrorDialog disableContainerStyle error={error} />
+      ) : (
+        <>
+          <View style={styles.avatarContainer}>
+            <Image style={styles.avatar} source={{uri: data.avatar_url}} />
+          </View>
+          <TouchableOpacity
+            style={styles.nameContainer}
+            disabled={!data.bio}
+            onPress={handlerPressOpenBlog}>
+            <Text style={styles.name}>{data.name}</Text>
+            {data.bio && <Octicons name="link" style={styles.blogIcon} />}
+          </TouchableOpacity>
+          {data.bio && <Text style={styles.bio}>{data.bio}</Text>}
+        </>
+      )}
     </View>
   );
 };

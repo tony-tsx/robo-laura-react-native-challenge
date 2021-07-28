@@ -5,7 +5,7 @@ export interface CustomActivityIndicatorProps {}
 
 export const CustomActivityIndicator = ({}: CustomActivityIndicatorProps) => (
   <View style={styles.container}>
-    <ActivityIndicator size="large" color="#00ff0060" />
+    <ActivityIndicator size="large" color="#00000080" animating />
   </View>
 );
 

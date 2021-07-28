@@ -8,14 +8,14 @@ import {useNavigation} from '@react-navigation/native';
 
 export const SearchUser = () => {
   const [nickname, setNickname] = useState<string | null>(null);
-  const [nicknameNotFound, setNicknameNotFound] = useState(false);
   const [, setLoading] = useState(false);
+  const [error, setError] = useState<AxiosError | null>(null);
   const navigation = useNavigation();
 
   const handleChangeClearNickName = useCallback(() => {
     setLoading(true);
     setNickname(null);
-    setNicknameNotFound(false);
+    setError(null);
   }, []);
 
   const handleChangeNickName = useCallback((maybeNickname: string) => {
@@ -25,13 +25,7 @@ export const SearchUser = () => {
     api
       .get(`/users/${maybeNickname}`)
       .then(() => setNickname(maybeNickname))
-      .catch((error: AxiosError) => {
-        if (error.response && error.response.status === 404) {
-          return setNicknameNotFound(true);
-        }
-        setNickname(maybeNickname);
-        console.error(error);
-      })
+      .catch(setError)
       .finally(setLoading.bind(null, false));
   }, []);
 
@@ -71,11 +65,19 @@ export const SearchUser = () => {
             ]}
           />
         </TouchableOpacity>
-        <View style={styles.inputBar} />
-        {nicknameNotFound && (
-          <Text style={styles.notFound}>nickname not found</Text>
-        )}
+        <View
+          style={[styles.inputBar, error ? styles.inputBarError : undefined]}
+        />
       </View>
+      {error && (
+        <Text style={styles.error}>
+          {error?.response?.status === 404
+            ? 'nickname not found.'
+            : error?.response?.status === 403
+            ? 'github is hurt, try again later.'
+            : 'something is right is wrong, try again later.'}
+        </Text>
+      )}
       <View>
         <Text style={styles.title}>About</Text>
         <Text style={styles.subtitle}>Github rest api integration</Text>
@@ -103,7 +105,7 @@ const styles = StyleSheet.create({
     marginVertical: 15,
   },
   inputContainer: {
-    marginVertical: 15,
+    marginTop: 15,
     position: 'relative',
   },
   input: {
@@ -118,9 +120,12 @@ const styles = StyleSheet.create({
     height: 1,
     backgroundColor: 'gray',
   },
-  notFound: {
+  inputBarError: {
+    backgroundColor: 'red',
+  },
+  error: {
     color: 'red',
-    fontSize: 8,
+    fontSize: 10,
     textAlign: 'center',
     marginVertical: 10,
   },
@@ -138,6 +143,6 @@ const styles = StyleSheet.create({
     color: 'black',
   },
   nextIconDisabled: {
-    color: 'gray',
+    color: '#CCC',
   },
 });
