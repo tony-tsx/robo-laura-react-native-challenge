@@ -1,4 +1,11 @@
-# Robo Laura - React Native Challenge
+<h1 align="center">
+  Robo Laura
+</h1>
+<h2 align="center">
+  React Native Challenge
+</h2>
+
+<br>
 
 ## Installation
 
@@ -13,22 +20,10 @@ link anything you need with the command
 react-native link
 ```
 
+---
+
 ## Run
 
-- ### Android
-  ```sh
-  yarn android
-  ```
-  or
-  ```sh
-  npm run android
-  ```
+android: `yarn android` or `npm run android`
 
-- ### IOS
-  ```sh
-  yarn ios
-  ```
-  or
-  ```sh
-  npm run ios
-  ```
+ios: `yarn ios` or `npm run ios`
