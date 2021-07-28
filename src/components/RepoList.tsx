@@ -19,11 +19,12 @@ export const RepoList = ({
 
   const repositories = useMemo(() => {
     const regex = RegExp(search, 'i');
-    const test = (...strings: [string, ...(string | undefined | null)[]]) =>
-      strings.some(string => string && regex.test(string));
+    const searchByText = (
+      ...strings: [string, ...(string | undefined | null)[]]
+    ) => strings.some(string => string && regex.test(string));
 
     return receiveRepositories.filter(repository =>
-      test(repository.name, repository.description),
+      searchByText(repository.name),
     );
   }, [search, receiveRepositories]);
 
