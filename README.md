@@ -9,16 +9,7 @@
 
 ## Installation
 
-install dependencies with yarn
-
-```sh
-yarn install
-```
-
-link anything you need with the command 
-```
-react-native link
-```
+install dependencies `yarn install` or `npm install`
 
 ---
 
