@@ -135,7 +135,7 @@ const styles = StyleSheet.create({
     top: 0,
     bottom: 0,
     justifyContent: 'center',
-    paddingVertical: 5,
+    // paddingVertical: 5,
     paddingHorizontal: 10,
   },
   nextIcon: {

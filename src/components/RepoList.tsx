@@ -83,6 +83,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     width: '100%',
     paddingHorizontal: 10,
+    paddingVertical: 10,
     color: 'black',
     fontFamily: 'Roboto-Light',
   },
